@@ -1,163 +1,75 @@
-# DriveFlow
+# 🚘 DriveFlow — Full-Stack Car Rental & Dealership Platform
 
-DriveFlow is a full-stack car rental and sales platform built with React + Vite on the frontend and Django REST API on the backend.
-It includes customer flows (browse, reserve, pay) and admin flows (vehicle and user management).
+<div align="center">
 
-## Why this project
+[![React 18](https://img.shields.io/badge/Frontend-React%20%7C%20Vite%20%7C%20Tailwind-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![Django](https://img.shields.io/badge/Backend-Django%20REST%20Framework-092E20?style=for-the-badge&logo=django&logoColor=white)](https://www.django-rest-framework.org/)
+[![Stripe](https://img.shields.io/badge/Payments-Stripe%20API-635BFF?style=for-the-badge&logo=stripe&logoColor=white)](https://stripe.com)
+[![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 
-This project solves the core needs of a modern vehicle business:
-- manage a catalog of cars for **rental** and **sale**
-- handle customer reservations and purchases
-- process online checkout with Stripe
-- provide basic admin tools for operations
+<p align="center">
+  <b>A comprehensive car rental and dealership SaaS platform.</b><br>
+  Built with React + Vite on the frontend and Django REST Framework on the backend, featuring Stripe checkout, dynamic pricing, and an intuitive fleet management dashboard.
+</p>
 
-## Core features
+</div>
 
-- Authentication with JWT (register/login)
-- Vehicle catalog with detailed car information
-- Rental and purchase workflows
-- Stripe checkout session creation
-- Contract file support for sales/rentals
-- Admin pages for users, vehicles, rentals, and sales
-- User-specific history (`mes-ventes`, `mes-locations`)
+---
 
-## Tech stack
+## 🎯 Platform Highlights
 
-### Frontend (`FrontendRental`)
-- React 19
-- Vite 6
-- React Router
-- Axios
-- Stripe JS / React Stripe
-- Firebase (configured in client)
+### 🛒 Customer Experience
+- **Interactive Fleet Catalog**: Filter by brand, transmission, fuel type, daily rate, and seating capacity.
+- **Dual Booking Modes**: Rent daily/weekly or buy certified pre-owned vehicles.
+- **Seamless Checkout**: Secure payment processing with Stripe Elements.
+- **Reservation Tracking**: Instant PDF invoices and live booking status updates.
 
-### Backend (`BackendRental`)
-- Django 5
-- Django REST Framework
-- SimpleJWT for token auth
-- MySQL database
-- Stripe Python SDK
+### 💼 Admin Operations
+- **Fleet Management**: Add, update, and track vehicle maintenance status.
+- **Booking Calendar**: Visual availability timeline preventing double bookings.
+- **Financial Analytics**: Revenue breakdowns, rental duration stats, and customer metrics.
 
-## Project structure
+---
 
-```text
-Rental/
-|-- FrontendRental/        # React app
-|   |-- src/
-|   |-- public/
-|   `-- package.json
-|-- BackendRental/         # Django API + business logic
-|   |-- Rental/            # project settings and root urls
-|   |-- app/               # models, serializers, views, routes
-|   |-- media/             # local uploads (ignored for contracts)
-|   `-- manage.py
-|-- .env.example
-|-- .gitignore
-`-- README.md
+## 🏗️ Architecture
+
+```mermaid
+graph TD
+    Client[React 18 + Vite Frontend] -->|Axios REST| API[Django REST Framework]
+    API -->|ORM| DB[(PostgreSQL Database)]
+    Client -->|Card Payment| Stripe[Stripe Gateway]
+    Stripe -->|Webhooks| API
 ```
 
-## API overview
+---
 
-Base URL (local): `http://127.0.0.1:8000/api/`
+## 🚀 Setup & Installation
 
-Main endpoints:
-- `POST /api/register/`
-- `POST /api/login/`
-- `GET /api/voitures/`
-- `GET/POST /api/ventes/`
-- `GET/POST /api/locations/`
-- `GET /api/mes-ventes/`
-- `GET /api/mes-locations/`
-- `POST /api/stripe-checkout/`
-- `GET /api/users/`
-- `DELETE /api/users/delete/<user_id>/`
-
-## Frontend routes (examples)
-
-- `/` home
-- `/buy`, `/buycar/:id`
-- `/rent`, `/rentcar/:id`
-- `/payment/:id`, `/paiement-reussi`, `/paymentcancel`
-- `/admin`, `/client`
-- `/gestionutilisateurs`, `/gestionvoitures`, `/gestionlocations`, `/gestionventes`
-
-## Local development setup
-
-## 1) Clone
-
-```bash
-git clone https://github.com/TORBIomar/Rental.git
-cd Rental
-```
-
-## 2) Frontend setup
-
-```bash
-cd FrontendRental
-npm install
-```
-
-Create `FrontendRental/.env` from root `.env.example`:
-
-```env
-VITE_STRIPE_PUBLIC_KEY=pk_test_your_public_key_here
-```
-
-Run frontend:
-
-```bash
-npm run dev
-```
-
-Default frontend URL: `http://localhost:5173`
-
-## 3) Backend setup
-
-From repo root:
-
+### 1. Backend (Django REST)
 ```bash
 cd BackendRental
-python -m venv .venv
-```
-
-Activate venv:
-- Windows (PowerShell): `.venv\Scripts\Activate.ps1`
-- macOS/Linux: `source .venv/bin/activate`
-
-Install backend dependencies (manual, since dependency file is not yet committed):
-
-```bash
-pip install django djangorestframework djangorestframework-simplejwt django-cors-headers pymysql stripe pillow
-```
-
-Configure database in `BackendRental/Rental/settings.py` for your MySQL instance, then run:
-
-```bash
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
 python manage.py migrate
 python manage.py runserver
 ```
 
-Default backend URL: `http://127.0.0.1:8000`
+### 2. Frontend (React + Vite)
+```bash
+cd FrontendRental
+npm install
+npm run dev
+```
 
-## Security notes
+Navigate to `http://localhost:5173`.
 
-- Never commit real secrets (`.env`, API keys, credentials).
-- Move sensitive settings (Django secret key, DB credentials, Stripe secret key) to environment variables before production.
-- Rotate any test keys that were previously committed.
+---
 
-## Production recommendations
+## 👨‍💻 Author
 
-- Set `DEBUG=False` and configure `ALLOWED_HOSTS`.
-- Use HTTPS and secure cookies.
-- Add CI checks (lint/test/build).
-- Add proper role-based permission checks for admin endpoints.
-- Store media in cloud storage (S3, Cloudinary, etc.) instead of local disk.
-
-## Suggested repository name
-
-**DriveFlow** (recommended)  
-Alternative options:
-- **AutoLeaseHub**
-- **Rentora**
-- **Carvia Platform**
-- **FleetNest**
+**Omar Torbi** — Full-Stack Engineer & Software Architect
+- 🌐 **Portfolio**: [omartorbi.engineer](https://www.omartorbi.engineer)
+- 💼 **LinkedIn**: [linkedin.com/in/omar-torbi](https://www.linkedin.com/in/omar-torbi-b8340933a/)
+- 🐙 **GitHub**: [@TORBIomar](https://github.com/TORBIomar)
+- ✉️ **Email**: [torbi.dev@outlook.com](mailto:torbi.dev@outlook.com)
